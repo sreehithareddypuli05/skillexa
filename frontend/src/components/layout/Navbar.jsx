@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Menu, X, ChevronDown, LogOut, User, BookOpen, Zap } from 'lucide-react';
+import { Menu, X, ChevronDown, LogOut, User, BookOpen, Zap, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 
 const navLinks = [
   { label: 'Home', to: '/' },
@@ -16,6 +17,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const { user, logout, isAuthenticated } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,16 +34,21 @@ export default function Navbar() {
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg border-b border-gray-100' : 'bg-transparent'
+      scrolled
+        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-100 dark:border-gray-800'
+        : 'bg-transparent'
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
+
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center shadow-lg group-hover:shadow-blue-500/30 transition-shadow">
               <Zap className="w-4 h-4 text-white" />
             </div>
-            <span className={`font-bold text-xl transition-colors ${scrolled ? 'text-gray-900' : 'text-white'}`}>
+            <span className={`font-bold text-xl transition-colors ${
+              scrolled ? 'text-gray-900 dark:text-white' : 'text-white'
+            }`}>
               Skill<span className="text-blue-400">exa</span>
             </span>
           </Link>
@@ -57,7 +64,7 @@ export default function Navbar() {
                     isActive
                       ? 'bg-blue-600 text-white shadow-sm'
                       : scrolled
-                      ? 'text-gray-600 hover:text-blue-600 hover:bg-blue-50'
+                      ? 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30'
                       : 'text-white/80 hover:text-white hover:bg-white/10'
                   }`
                 }
@@ -67,14 +74,33 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Auth */}
+          {/* Auth + Theme Toggle */}
           <div className="hidden md:flex items-center gap-3">
+
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-xl transition-all duration-200 ${
+                scrolled
+                  ? 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  : 'text-white/80 hover:text-white hover:bg-white/10'
+              }`}
+              aria-label="Toggle theme"
+            >
+              {isDark
+                ? <Sun className="w-5 h-5" />
+                : <Moon className="w-5 h-5" />
+              }
+            </button>
+
             {isAuthenticated ? (
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`flex items-center gap-2 px-3 py-2 rounded-xl font-medium text-sm transition-all ${
-                    scrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-white hover:bg-white/10'
+                    scrolled
+                      ? 'text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      : 'text-white hover:bg-white/10'
                   }`}
                 >
                   <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold">
@@ -84,18 +110,18 @@ export default function Navbar() {
                   <ChevronDown className="w-4 h-4" />
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 py-1 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-100 dark:border-gray-700 py-1 z-50">
                     <Link to="/profile" onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                       <User className="w-4 h-4" /> My Profile
                     </Link>
                     <Link to="/courses" onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors">
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                       <BookOpen className="w-4 h-4" /> My Courses
                     </Link>
-                    <hr className="my-1 border-gray-100" />
+                    <hr className="my-1 border-gray-100 dark:border-gray-700" />
                     <button onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                      className="w-full flex items-center gap-2 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                       <LogOut className="w-4 h-4" /> Sign Out
                     </button>
                   </div>
@@ -104,7 +130,9 @@ export default function Navbar() {
             ) : (
               <>
                 <Link to="/signin" className={`px-4 py-2 rounded-xl font-semibold text-sm transition-all ${
-                  scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white/90 hover:text-white'
+                  scrolled
+                    ? 'text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400'
+                    : 'text-white/90 hover:text-white'
                 }`}>
                   Sign In
                 </Link>
@@ -115,40 +143,55 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen(!open)}
-            className={`md:hidden p-2 rounded-lg transition-colors ${scrolled ? 'text-gray-700' : 'text-white'}`}
-          >
-            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+          {/* Mobile: theme toggle + hamburger */}
+          <div className="md:hidden flex items-center gap-2">
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-lg transition-colors ${
+                scrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
+              }`}
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+            <button
+              onClick={() => setOpen(!open)}
+              className={`p-2 rounded-lg transition-colors ${
+                scrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'
+              }`}
+            >
+              {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-white border-t border-gray-100 shadow-xl">
+        <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shadow-xl">
           <div className="px-4 py-3 space-y-1">
             {navLinks.map(link => (
               <NavLink key={link.to} to={link.to} onClick={() => setOpen(false)}
                 className={({ isActive }) =>
                   `block px-4 py-3 rounded-xl font-medium text-sm transition-colors ${
-                    isActive ? 'bg-blue-600 text-white' : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+                    isActive
+                      ? 'bg-blue-600 text-white'
+                      : 'text-gray-700 dark:text-gray-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400'
                   }`
                 }>
                 {link.label}
               </NavLink>
             ))}
-            <hr className="my-2 border-gray-100" />
+            <hr className="my-2 border-gray-100 dark:border-gray-700" />
             {isAuthenticated ? (
               <button onClick={handleLogout}
-                className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                className="w-full text-left px-4 py-3 rounded-xl text-sm font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
                 Sign Out
               </button>
             ) : (
               <div className="flex gap-2 pt-1">
                 <Link to="/signin" onClick={() => setOpen(false)}
-                  className="flex-1 text-center px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 border border-blue-200 hover:bg-blue-50 transition-colors">
+                  className="flex-1 text-center px-4 py-3 rounded-xl text-sm font-semibold text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors">
                   Sign In
                 </Link>
                 <Link to="/signup" onClick={() => setOpen(false)}

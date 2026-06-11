@@ -11,9 +11,7 @@ const perks = [
 ];
 
 export default function SignUpPage() {
-  const [form, setForm] = useState({
-    first_name: '', last_name: '', email: '', username: '', phone: '', password: '', password2: ''
-  });
+  const [form, setForm] = useState({ first_name: '', last_name: '', email: '', username: '', phone: '', password: '', password2: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -29,11 +27,8 @@ export default function SignUpPage() {
       navigate('/');
     } catch (err) {
       const data = err.response?.data;
-      if (data && typeof data === 'object') {
-        setErrors(data);
-      } else {
-        setErrors({ general: 'Registration failed. Please try again.' });
-      }
+      if (data && typeof data === 'object') setErrors(data);
+      else setErrors({ general: 'Registration failed. Please try again.' });
     } finally {
       setLoading(false);
     }
@@ -87,11 +82,11 @@ export default function SignUpPage() {
               <h1 className="text-2xl font-bold text-white">Create Your Account</h1>
             </div>
 
-            <div className="bg-white rounded-2xl shadow-2xl p-8">
-              <h2 className="hidden lg:block text-2xl font-bold text-gray-900 mb-6">Create Your Account</h2>
+            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 border border-transparent dark:border-gray-700">
+              <h2 className="hidden lg:block text-2xl font-bold text-gray-900 dark:text-white mb-6">Create Your Account</h2>
 
               {errors.general && (
-                <div className="bg-red-50 border border-red-200 text-red-600 rounded-xl p-4 mb-5 text-sm">
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 rounded-xl p-4 mb-5 text-sm">
                   {errors.general}
                 </div>
               )}
@@ -99,46 +94,42 @@ export default function SignUpPage() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">First Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">First Name *</label>
                     <input required className={`input-field ${errors.first_name ? 'border-red-300' : ''}`} placeholder="First" {...f('first_name')} />
                     {errors.first_name && <p className="text-red-500 text-xs mt-1">{errors.first_name[0]}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Last Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Last Name *</label>
                     <input required className={`input-field ${errors.last_name ? 'border-red-300' : ''}`} placeholder="Last" {...f('last_name')} />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email *</label>
                   <input required type="email" className={`input-field ${errors.email ? 'border-red-300' : ''}`} placeholder="you@example.com" {...f('email')} />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email[0]}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Username *</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Username *</label>
                     <input required className={`input-field ${errors.username ? 'border-red-300' : ''}`} placeholder="username" {...f('username')} />
                     {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username[0]}</p>}
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
                     <input type="tel" className="input-field" placeholder="+91 xxxxx" {...f('phone')} />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Password *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password *</label>
                   <div className="relative">
-                    <input
-                      required
-                      type={showPassword ? 'text' : 'password'}
+                    <input required type={showPassword ? 'text' : 'password'}
                       className={`input-field pr-12 ${errors.password ? 'border-red-300' : ''}`}
-                      placeholder="Min. 8 characters"
-                      {...f('password')}
-                    />
+                      placeholder="Min. 8 characters" {...f('password')} />
                     <button type="button" onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
                       {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
@@ -146,22 +137,17 @@ export default function SignUpPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password *</label>
-                  <input
-                    required
-                    type={showPassword ? 'text' : 'password'}
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Confirm Password *</label>
+                  <input required type={showPassword ? 'text' : 'password'}
                     className={`input-field ${errors.password2 ? 'border-red-300' : ''}`}
-                    placeholder="Repeat password"
-                    {...f('password2')}
-                  />
+                    placeholder="Repeat password" {...f('password2')} />
                   {errors.password2 && <p className="text-red-500 text-xs mt-1">{errors.password2[0]}</p>}
                 </div>
 
                 <button type="submit" disabled={loading} className="btn-primary w-full py-3.5 text-base mt-2">
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
-                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      Creating account...
+                      <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> Creating account...
                     </span>
                   ) : (
                     <span className="flex items-center justify-center gap-2">
@@ -172,8 +158,8 @@ export default function SignUpPage() {
               </form>
 
               <div className="mt-5 text-center text-sm">
-                <span className="text-gray-500">Already have an account? </span>
-                <Link to="/signin" className="text-blue-600 hover:text-blue-700 font-semibold">Sign in →</Link>
+                <span className="text-gray-500 dark:text-gray-400">Already have an account? </span>
+                <Link to="/signin" className="text-blue-600 dark:text-blue-400 hover:text-blue-700 font-semibold">Sign in →</Link>
               </div>
             </div>
           </div>

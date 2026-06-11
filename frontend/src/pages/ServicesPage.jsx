@@ -32,8 +32,7 @@ function RequestModal({ service, onClose }) {
       await servicesAPI.requestService(service.slug || service.id, form);
       setSuccess(true);
     } catch {
-      // Fallback: simulate success for demo
-      setSuccess(true);
+      setSuccess(true); // demo fallback
     } finally {
       setSubmitting(false);
     }
@@ -41,43 +40,43 @@ function RequestModal({ service, onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg" onClick={e => e.stopPropagation()}>
+      <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-lg border border-gray-100 dark:border-gray-700" onClick={e => e.stopPropagation()}>
         {success ? (
           <div className="p-10 text-center">
             <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-            <h3 className="text-2xl font-bold text-gray-900 mb-2">Request Sent!</h3>
-            <p className="text-gray-500 mb-6">We'll reach out within 24 hours to discuss your <strong>{service.title}</strong> request.</p>
+            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Request Sent!</h3>
+            <p className="text-gray-500 dark:text-gray-400 mb-6">We'll reach out within 24 hours to discuss your <strong>{service.title}</strong> request.</p>
             <button onClick={onClose} className="btn-primary">Close</button>
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 dark:border-gray-700">
               <div>
-                <h3 className="font-bold text-xl text-gray-900">Request Service</h3>
-                <p className="text-sm text-gray-500 mt-0.5">{service.title}</p>
+                <h3 className="font-bold text-xl text-gray-900 dark:text-white">Request Service</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{service.title}</p>
               </div>
-              <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors">
-                <X className="w-4 h-4 text-gray-600" />
+              <button onClick={onClose} className="w-8 h-8 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 flex items-center justify-center transition-colors">
+                <X className="w-4 h-4 text-gray-600 dark:text-gray-300" />
               </button>
             </div>
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {error && <div className="bg-red-50 text-red-600 rounded-xl p-3 text-sm">{error}</div>}
+              {error && <div className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl p-3 text-sm">{error}</div>}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Full Name *</label>
                   <input required className="input-field" placeholder="Your name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Phone</label>
                   <input className="input-field" placeholder="+91 xxxxx xxxxx" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email *</label>
                 <input required type="email" className="input-field" placeholder="you@example.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Message *</label>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Message *</label>
                 <textarea required rows={4} className="input-field resize-none" placeholder="Tell us about your requirements..." value={form.message} onChange={e => setForm({...form, message: e.target.value})} />
               </div>
               <button type="submit" disabled={submitting} className="btn-primary w-full py-3">
@@ -118,17 +117,13 @@ export default function ServicesPage() {
         </div>
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <span className="inline-block text-blue-300 font-semibold text-sm uppercase tracking-wider mb-4">Professional Services</span>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Your Growth, Our Expertise
-          </h1>
-          <p className="text-white/70 text-lg">
-            From stunning designs to startup consulting — we provide professional services that accelerate your personal and business growth.
-          </p>
+          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Your Growth, Our Expertise</h1>
+          <p className="text-white/70 text-lg">From stunning designs to startup consulting — we provide professional services that accelerate your growth.</p>
         </div>
       </section>
 
       {/* Filters + Services */}
-      <section className="py-12 bg-gray-50 min-h-screen">
+      <section className="py-12 bg-gray-50 dark:bg-gray-950 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center gap-3 mb-8">
             {CATEGORIES.map(cat => (
@@ -138,7 +133,7 @@ export default function ServicesPage() {
                 className={`px-4 py-2 rounded-xl text-sm font-semibold capitalize transition-all ${
                   category === cat
                     ? 'bg-blue-600 text-white shadow-md'
-                    : 'bg-white text-gray-600 border border-gray-200 hover:border-blue-300 hover:text-blue-600'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 hover:border-blue-300 hover:text-blue-600 dark:hover:text-blue-400'
                 }`}
               >
                 {cat === 'all' ? 'All Services' : cat}
@@ -155,7 +150,7 @@ export default function ServicesPage() {
       </section>
 
       {/* Why our services */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-white dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="section-title">Why Choose Our Services?</h2>
@@ -164,13 +159,13 @@ export default function ServicesPage() {
             {[
               { emoji: '⚡', title: 'Fast Turnaround', desc: '48-72 hr delivery on most services' },
               { emoji: '🎯', title: 'Tailored for You', desc: 'Customized to your specific needs' },
-              { emoji: '✅', title: 'Quality Guaranteed', desc: 'Revisions until you\'re satisfied' },
+              { emoji: '✅', title: 'Quality Guaranteed', desc: "Revisions until you're satisfied" },
               { emoji: '💰', title: 'Student Pricing', desc: 'Affordable rates for everyone' },
             ].map(w => (
               <div key={w.title} className="card p-6">
-                <div className="text-3xl mb-3">{w.emoji}</div>
-                <h4 className="font-bold text-gray-900 mb-1">{w.title}</h4>
-                <p className="text-xs text-gray-500">{w.desc}</p>
+                
+                <h4 className="font-bold text-gray-900 dark:text-white mb-1">{w.title}</h4>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{w.desc}</p>
               </div>
             ))}
           </div>

@@ -27,7 +27,7 @@ const socials = [
   { icon: Instagram, href: 'https://instagram.com', label: 'Instagram' },
   { icon: Twitter, href: 'https://twitter.com', label: 'Twitter' },
   { icon: Youtube, href: 'https://youtube.com', label: 'YouTube' },
-  { icon: Github, href: 'https://github.com', label: 'GitHub' },
+ 
 ];
 
 export default function Footer() {

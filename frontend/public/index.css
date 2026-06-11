@@ -1,0 +1,133 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@keyframes orbitInner {
+  from { transform: rotate(0deg) translateX(90px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(90px) rotate(-360deg); }
+}
+@keyframes orbitOuter {
+  from { transform: rotate(0deg) translateX(160px) rotate(0deg); }
+  to   { transform: rotate(360deg) translateX(160px) rotate(-360deg); }
+}
+@keyframes centerPulse {
+  0%,100% { box-shadow: 0 0 25px rgba(99,102,241,0.5), 0 0 60px rgba(99,102,241,0.2); }
+  50%     { box-shadow: 0 0 45px rgba(99,102,241,0.9), 0 0 100px rgba(99,102,241,0.4); }
+}
+@keyframes ringPulse1 { 0%,100% { opacity: 0.15; } 50% { opacity: 0.35; } }
+@keyframes ringPulse2 { 0%,100% { opacity: 0.08; } 50% { opacity: 0.2;  } }
+
+.orbit-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 38px; height: 38px;
+  margin: -19px 0 0 -19px;
+  display: flex; align-items: center; justify-content: center;
+}
+.orbit-icon svg {
+  width: 34px; height: 34px;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.6));
+}
+
+@media (max-width: 768px) {
+  @keyframes orbitInner {
+    from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+  }
+  @keyframes orbitOuter {
+    from { transform: rotate(0deg) translateX(105px) rotate(0deg); }
+    to   { transform: rotate(360deg) translateX(105px) rotate(-360deg); }
+  }
+  .orbit-icon svg { width: 26px; height: 26px; }
+  .orbit-icon { width: 28px; height: 28px; margin: -14px 0 0 -14px; }
+}
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-blue-600 font-semibold px-6 py-3 rounded-xl border-2 border-blue-200 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center justify-center gap-2 bg-transparent hover:bg-white/10 text-white font-semibold px-6 py-3 rounded-xl border-2 border-white/40 transition-all duration-200 hover:-translate-y-0.5;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-gray-900;
+  }
+
+  .section-subtitle {
+    @apply text-gray-500 text-lg max-w-2xl mx-auto mt-3;
+  }
+
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold;
+  }
+
+  .badge-beginner {
+    @apply badge bg-green-100 text-green-700;
+  }
+
+  .badge-intermediate {
+    @apply badge bg-yellow-100 text-yellow-700;
+  }
+
+  .badge-advanced {
+    @apply badge bg-red-100 text-red-700;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white text-gray-900 placeholder-gray-400;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent;
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+
+  .hero-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #312e81 100%);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}

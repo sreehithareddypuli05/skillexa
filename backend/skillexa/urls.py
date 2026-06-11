@@ -26,3 +26,5 @@ urlpatterns = [
     path('api/services/', include('apps.services.urls')),
     path('api/contact/', include('apps.contact.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

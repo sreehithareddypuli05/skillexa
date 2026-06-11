@@ -1,106 +1,75 @@
 import { Clock, Users } from 'lucide-react';
 
 const iconMap = {
-  FaC: '🔧', FaPython: '🐍', SiCplusplus: '⚡', FaJava: '☕',
-  FaProjectDiagram: '🌐', FaCode: '💻', FaGitAlt: '🔀', FaRocket: '🚀',
-  FaLinkedin: '💼', FaBriefcase: '🎯', FaUsers: '👥', FaVideo: '🎥',
-  FaGraduationCap: '🎓',
+  FaC: { short: 'C', gradient: 'linear-gradient(135deg,#2563eb,#1e40af)' },
+  FaPython: { short: 'PY', gradient: 'linear-gradient(135deg,#3b82f6,#7c3aed)' },
+  SiCplusplus: { short: 'C++', gradient: 'linear-gradient(135deg,#06b6d4,#2563eb)' },
+  FaJava: { short: 'JV', gradient: 'linear-gradient(135deg,#f97316,#dc2626)' },
+  FaProjectDiagram: { short: 'DS', gradient: 'linear-gradient(135deg,#0891b2,#2563eb)' },
+  FaCode: { short: 'FS', gradient: 'linear-gradient(135deg,#8b5cf6,#ec4899)' },
+  FaGitAlt: { short: 'GT', gradient: 'linear-gradient(135deg,#f97316,#ea580c)' },
+  FaRocket: { short: 'RK', gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)' },
+  FaLinkedin: { short: 'IN', gradient: 'linear-gradient(135deg,#0ea5e9,#2563eb)' },
+  FaBriefcase: { short: 'CR', gradient: 'linear-gradient(135deg,#14b8a6,#0f766e)' },
+  FaUsers: { short: 'CM', gradient: 'linear-gradient(135deg,#ec4899,#db2777)' },
+  FaVideo: { short: 'VD', gradient: 'linear-gradient(135deg,#ef4444,#b91c1c)' },
+  FaGraduationCap: { short: 'ED', gradient: 'linear-gradient(135deg,#7c3aed,#4338ca)' },
 };
 
 const levelStyles = {
-  beginner:     { bar: '#10b981', badge: '#dcfce7', badgeText: '#15803d', label: 'Beginner' },
-  intermediate: { bar: '#f59e0b', badge: '#fef3c7', badgeText: '#92400e', label: 'Intermediate' },
-  advanced:     { bar: '#ef4444', badge: '#fee2e2', badgeText: '#991b1b', label: 'Advanced' },
+  beginner:     { bar: '#10b981', badge: 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-400', label: 'Beginner' },
+  intermediate: { bar: '#f59e0b', badge: 'bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-400', label: 'Intermediate' },
+  advanced:     { bar: '#ef4444', badge: 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-400', label: 'Advanced' },
 };
 
 export default function CourseCard({ course }) {
-  const emoji = iconMap[course.icon] || '📚';
+  const iconData = iconMap[course.icon] || { short: 'SK', gradient: 'linear-gradient(135deg,#2563eb,#7c3aed)' };
   const lvl = course.level || 'beginner';
   const style = levelStyles[lvl] || levelStyles.beginner;
   const label = course.level_display || style.label;
   const count = (course.enrollment_count || 0).toLocaleString();
 
   return (
-    <div style={{
-      background: '#fff',
-      borderRadius: '1rem',
-      border: '1px solid #e2e8f0',
-      boxShadow: '0 1px 4px rgba(0,0,0,0.07)',
-      display: 'flex',
-      flexDirection: 'column',
-      overflow: 'hidden',
-      transition: 'transform 0.25s, box-shadow 0.25s',
-      cursor: 'default',
-    }}
-    onMouseEnter={e => {
-      e.currentTarget.style.transform = 'translateY(-4px)';
-      e.currentTarget.style.boxShadow = '0 16px 32px rgba(0,0,0,0.12)';
-    }}
-    onMouseLeave={e => {
-      e.currentTarget.style.transform = 'translateY(0)';
-      e.currentTarget.style.boxShadow = '0 1px 4px rgba(0,0,0,0.07)';
-    }}
-    >
+    <div className="group bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm flex flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl dark:hover:shadow-gray-900/60 cursor-default">
       {/* Color bar */}
       <div style={{ height: '4px', background: style.bar }} />
 
-      <div style={{ padding: '20px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+      <div className="p-5 flex flex-col flex-1">
         {/* Icon + Badge */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '14px' }}>
+        <div className="flex justify-between items-start mb-4">
           <div style={{
-            width: '48px', height: '48px', borderRadius: '12px',
-            background: '#eff6ff', display: 'flex', alignItems: 'center',
-            justifyContent: 'center', fontSize: '1.4rem',
+            width: '52px', height: '52px', borderRadius: '16px',
+            background: iconData.gradient,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            color: '#fff', fontSize: '0.95rem', fontWeight: '800',
+            letterSpacing: '0.5px', boxShadow: '0 10px 20px rgba(37,99,235,0.18)',
           }}>
-            {emoji}
+            {iconData.short}
           </div>
-          <span style={{
-            background: style.badge, color: style.badgeText,
-            borderRadius: '999px', padding: '3px 10px',
-            fontSize: '0.7rem', fontWeight: 700,
-          }}>
+          <span className={`text-xs font-bold px-3 py-1 rounded-full ${style.badge}`}>
             {label}
           </span>
         </div>
 
         {/* Title */}
-        <h3 style={{ fontWeight: 700, fontSize: '1rem', color: '#0f172a', marginBottom: '8px', lineHeight: 1.3 }}>
+        <h3 className="font-bold text-base text-gray-900 dark:text-white mb-2 leading-snug">
           {course.title}
         </h3>
 
         {/* Description */}
-        <p style={{
-          color: '#64748b', fontSize: '0.83rem', lineHeight: 1.6,
-          marginBottom: '16px', flex: 1,
-          display: '-webkit-box', WebkitLineClamp: 3,
-          WebkitBoxOrient: 'vertical', overflow: 'hidden',
-        }}>
+        <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-4 flex-1 line-clamp-3">
           {course.short_description}
         </p>
 
         {/* Meta */}
-        <div style={{
-          display: 'flex', gap: '16px', fontSize: '0.75rem', color: '#94a3b8',
-          paddingTop: '12px', marginBottom: '14px',
-          borderTop: '1px solid #f1f5f9',
-        }}>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Clock size={12} /> {course.duration}
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-            <Users size={12} /> {count} enrolled
-          </span>
+        <div className="flex gap-4 text-xs text-gray-400 dark:text-gray-500 pt-3 mb-4 border-t border-gray-100 dark:border-gray-800">
+          <span className="flex items-center gap-1"><Clock size={12} /> {course.duration}</span>
+         
         </div>
 
         {/* Button */}
-        <button style={{
-          width: '100%', padding: '10px', borderRadius: '10px',
-          background: '#2563eb', color: '#fff', border: 'none',
-          fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer',
-          fontFamily: 'inherit', transition: 'background 0.2s',
-        }}
-        onMouseEnter={e => e.currentTarget.style.background = '#1d4ed8'}
-        onMouseLeave={e => e.currentTarget.style.background = '#2563eb'}
+        <button
+          className="w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm transition-colors duration-200"
         >
           Enroll Now
         </button>
